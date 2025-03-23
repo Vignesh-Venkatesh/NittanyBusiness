@@ -1,0 +1,48 @@
+{#- `#1C1C1C` - Eerie Black#}
+{#- `#757575` - Gray#}
+{#- `#DADDD8` - Platinum#}
+{#- `#ECEBE4` - Alabaster#}
+{#- `#EEF0F2` - Anti-flash white#}
+{#- `#FAFAFF` - Ghost White#}
+{#- `#669D31` - Asparagus#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nittany Business</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#1C1C1C] text-[#FAFAFF] flex justify-center items-center h-screen px-4">
+
+    <div class="w-full max-w-md bg-[#757575] p-8 rounded-2xl shadow-lg">
+        <h1 class="text-center text-3xl font-bold text-[#EEF0F2]">Welcome to Nittany Business!</h1>
+
+        <div class="mt-6 flex justify-around">
+            <div class="text-center">
+                <h2 class="text-lg text-[#ECEBE4]">Already a user?</h2>
+                <a href="/login">
+                <button class="mt-2 w-full bg-[#669D31] text-[#FAFAFF] py-2 rounded-md text-lg font-semibold
+                               transition duration-300 hover:bg-[#557A29] cursor-pointer">
+                    Log In
+                </button>
+                </a>
+
+            </div>
+
+            <div class="text-center">
+                <h2 class="text-lg text-[#ECEBE4]">New here?</h2>
+                <a href="/signup">
+                <button class="mt-2 w-full bg-[#669D31] text-[#FAFAFF] py-2 rounded-md text-lg font-semibold
+                               transition duration-300 hover:bg-[#557A29] cursor-pointer">
+                    Sign Up
+                </button>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
