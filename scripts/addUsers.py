@@ -10,7 +10,7 @@ def generateHash(string):
 
 # Initializing the database
 def initializeDB():
-    connection = sql.connect('database.db')
+    connection = sql.connect('../database.db')
     cursor = connection.cursor()
 
     # Create Users table if it doesn't exist
