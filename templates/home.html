@@ -3,11 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#1C1C1C] text-[#FAFAFF]">
+<body class="bg-[#1C1C1C] text-[#FAFAFF] min-h-screen">
 
-    <h2 class="text-3xl font-bold text-[#FAFAFF]">Welcome, {{ user }}</h2>
+    <!-- Header -->
+    <div class="bg-[#669D31] px-6 py-4">
+        <h2 class="text-xl font-bold text-[#FAFAFF]">Welcome, {{ user }}</h2>
+    </div>
+
+    <!-- Main Content with Sidebar -->
+    <div class="flex">
+
+        <!-- Sidebar -->
+        <div class="w-1/5 bg-[#333333] p-4 text-[#FAFAFF] border-r border-[#757575] min-h-screen">
+            <h3 class="text-lg font-bold mb-3 text-[#ECEBE4]">Categories</h3>
+            <div class="h-[1px] w-full bg-[#757575] mb-3 opacity-50"></div>
+            <ul class="space-y-2">
+                {% for category in categories %}
+                    <li>
+                        <a href="/category/{{ category.id }}" class="text-[#FAFAFF] hover:text-[#669D31] transition">
+                            {{ category.name }}
+                        </a>
+                        {% if category.children %}
+                            <ul class="ml-4 mt-1 space-y-1">
+                                {% for subcategory in category.children %}
+                                    <li>
+                                        <a href="/category/{{ subcategory.id }}" class="text-[#DADDD8] hover:text-[#669D31] text-sm">
+                                            {{ subcategory.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
 </body>
 </html>

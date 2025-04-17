@@ -10,6 +10,7 @@ host = 'http://127.0.0.1:5000/'
 def hello_world():
     return render_template('index.html')
 
+# ============== User Auth ============================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -19,7 +20,8 @@ def login():
         check = check_login(username, password)
 
         if check:
-            return render_template('home.html', user=username)
+            categories = get_top_level_categories()
+            return render_template('home.html', user=username, categories=categories)
         else:
             return render_template('userLogin.html', error="Invalid credentials. Try again.")
 
@@ -34,7 +36,8 @@ def signup():
         check = insertUser(username, password)
 
         if check:
-            return render_template('home.html', user=username)
+            categories = get_top_level_categories()
+            return render_template('home.html', user=username, categories=categories)
         else:
             return render_template('userSignUp.html', error="User Exists. Try logging in.")
 
@@ -90,7 +93,46 @@ def check_login(userID, password):
         else:
             return False
 
+# ===========================================================
 
+# ============== Category Hierarchy ============================
+def get_db_connection():
+    connection = sql.connect('database.db')
+    connection.row_factory = sql.Row
+    return connection
+
+# Get top-level categories
+def get_top_level_categories():
+    conn = get_db_connection()
+    # ordering in alphabetical order
+    categories = conn.execute("SELECT * FROM categories WHERE parent_id IS NULL ORDER BY name").fetchall()
+    conn.close()
+    return categories
+
+# Get subcategories based on parent_id
+def get_subcategories(connection, parent_id=None):
+    if parent_id is None:
+        query = 'SELECT * FROM categories WHERE parent_id IS NULL'
+        result = connection.execute(query).fetchall()
+    else:
+        query = 'SELECT * FROM categories WHERE parent_id = ?'
+        result = connection.execute(query, (parent_id,)).fetchall()
+
+    output = []
+    for row in result:
+        output.append({
+            'id': row['id'],
+            'name': row['name'],
+            'children': get_subcategories(connection, row['id'])
+        })
+    return output
+
+@app.route("/home")
+def show_categories():
+    conn = get_db_connection()
+    categories = get_top_level_categories()  # Pre-load top-level categories
+    conn.close()
+    return render_template("home.html", categories=categories)
 
 if __name__ == '__main__':
     app.run()
